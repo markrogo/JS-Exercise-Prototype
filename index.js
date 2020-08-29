@@ -39,9 +39,30 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 
-}
+};
+
+Person.prototype.eat = function (someFood) {
+  if (this.stomach.length < 10) {
+    this.stomach.push (someFood);
+  };
+};
+
+  Person.prototype.poop = function() {
+    this.stomach = [];
+  };
+
+  Person.prototype.toString = function() {
+    this.ourString = `${this.name}, ${this.age}`;
+    return this.ourString;
+  };
+
+ 
+  Person();
 
 /*
   TASK 2
@@ -57,9 +78,29 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.tank = 0;
+  this.odometer = 0;
+  this.milesPerGallon = milesPerGallon;
 
-}
+};
+
+Car.prototype.fill = function (gallons) {
+  this.tank = this.tank + gallons;
+};
+
+Car.prototype.drive = function (distance) {
+  if ((this.tank - (distance/this.milesPerGallon)) > 0 ){
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - (distance/this.milesPerGallon);
+} else {
+  this.odometer = this.odometer + (this.tank * this.milesPerGallon);
+  this.tank = 0;
+  outOfGas = `I ran out of gas at ${this.odometer} miles`;
+  return outOfGas;
+};
+};
 
 /*
   TASK 3
@@ -68,18 +109,24 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby (name, age, favoriteToy) {
+  Person.call (this, name, age);
+  this.favoriteToy = favoriteToy;
 }
 
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function () {
+  return `Playing with ${this.favoriteToy}`;
+};
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. In global scope, this refers to the window/console object. Not really very useful most of the time.
+  2. With dot notation, this refers to the object before the dot... with the function following the dot.
+  3. when we create a "constructor function" the builds us new objects, this refers to the object that funciton returns to us... so-called implicit binding
+  4. when we want to bind explicitly, we can use call or apply to take whatever object we want and make it "this"
 */
 
 
